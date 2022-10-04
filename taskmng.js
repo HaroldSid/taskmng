@@ -1,56 +1,74 @@
-const prompt = require('prompt-sync')();
+const prompt = require('prompt-sync')(
+    {
+    history: require('prompt-sync-history')() //open history file
+});
+/*const readline = require("readline");
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+function saveH()
+{
+    prompt.history.save();
+}
+console.log(test())
+function testrl()
+{
+    rl.question("What is your name? ", function(answer) {
+        console.log(`Oh, so your name is ${answer}`)
+    });
+}*/
+let menuS = ['Welcome to your task manager, Press:', '1. to see all your tasks', '2. to add a task', '3. to delete a task', '4. to mark a task as done', '5. to Exit the task manager'];
+let tasks = [];
+let choice;
 function menu()
 {
-    let a = prompt("Welcome to your task manager, Press:\n 1. to see all your tasks\n 2. to add a task\n 3. to delete a task\n 4. to mark a task as done\n 5. to Exit the task manager");
-    if (a == 1)
+    console.log(menuS)
+    choice = parseFloat(prompt());
+    if (choice == 1)
     {
         seetask();
     }
-    else if (a == 2)
+    else if (choice == 2)
     {
         addtask();
     }
-    else if (a == 3)
+    else if (choice == 3)
     {
         deletetask();
     }
-    else if (a == 4)
+    else if (choice == 4)
     {
         validatetask();
     }
-    else if (a == 5)
+    else 
     {
-        exitMenu();
+        console.log("by");
     }
 }
 function seetask()
 {
-    prompt('task 1');
+    for (let i = 0; i < tasks.length; i++)
+    {
+        console.log(i+1 + ": " + tasks[i]);
+    }
     menu();
 }
 function addtask()
 {
-    prompt('what is your task');
+    tasks.push(prompt('what is your task? --> '));
     menu();
 }
 function deletetask()
 {
-    prompt('delete');
+    let del = prompt('What task do you want to delete? -->') - 1;
+    tasks.splice(del, 1);
     menu();
 }
 function validatetask()
 {
-    prompt('ok?');
+    let val = prompt('What task do you want to validate? -->') - 1;
+    tasks.splice(val, 1, tasks[val] + ' done!');
     menu();
 }
-function exitMenu()
-{
-    let a = "bye";
-    return a;
-}
-function test()
-{
-    //let a = prompt("je m'appelle harold \n et j'aime le pain");
-    return "bye";
-}
-console.log(test());
+menu();
