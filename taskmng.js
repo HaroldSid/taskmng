@@ -1,23 +1,8 @@
 const prompt = require('prompt-sync')(
     {
     history: require('prompt-sync-history')() //open history file
-});
-/*const readline = require("readline");
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
-function saveH()
-{
-    prompt.history.save();
-}
-console.log(test())
-function testrl()
-{
-    rl.question("What is your name? ", function(answer) {
-        console.log(`Oh, so your name is ${answer}`)
     });
-}*/
+const fs = require('fs')
 let menuS = ['Welcome to your task manager, Press:', '1. to see all your tasks', '2. to add a task', '3. to delete a task', '4. to mark a task as done', '5. to Exit the task manager'];
 let tasks = [];
 let choice;
@@ -57,6 +42,7 @@ function seetask()
 function addtask()
 {
     tasks.push(prompt('what is your task? --> '));
+
     menu();
 }
 function deletetask()
