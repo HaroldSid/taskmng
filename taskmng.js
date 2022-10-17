@@ -4,10 +4,10 @@ const prompt = require('prompt-sync')(
     });
 const fs = require('fs')
 let menuS = ['Welcome to your task manager, Press:', '1. to see all your tasks', '2. to add a task', '3. to delete a task', '4. to mark a task as done', '5. to Exit the task manager'];
-let tasks = [];
-let choice;
-function menu()
+const tasks = fs.readFileSync('./tasks.json', { encoding: 'utf8', flag: 'r' });
+const menu = () =>
 {
+    let choice;
     console.log(menuS)
     choice = parseFloat(prompt());
     if (choice == 1)
@@ -28,7 +28,19 @@ function menu()
     }
     else 
     {
-        console.log("by");
+        fs.writeFile('./tasks.json', tasks, (err) => {
+            if (err)
+            {
+                console.log(err);
+            }
+            else
+            {
+                console.log("File written successfully\n");
+                console.log("The written has the following contents:");
+                console.log(fs.readFileSync("./tasks.json", "utf8"));
+            }
+        });
+        console.log("bye");
     }
 }
 function seetask()
