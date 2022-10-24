@@ -4,7 +4,11 @@ const prompt = require('prompt-sync')(
     });
 const fs = require('fs')
 let menuS = ['Welcome to your task manager, Press:', '1. to see all your tasks', '2. to add a task', '3. to delete a task', '4. to mark a task as done', '5. to Exit the task manager'];
-const tasks = fs.readFileSync('./tasks.json', { encoding: 'utf8', flag: 'r' });
+const tasksjson = JSON.parse(fs.readFileSync('./tasks.json', { encoding: 'utf8', flag: 'r' }));
+const tasks = [];
+for (i = 0; i < Object.keys(tasksjson).length; i++){
+    tasks[i] = tasksjson[i];
+}
 const menu = () =>
 {
     let choice;
@@ -28,7 +32,13 @@ const menu = () =>
     }
     else 
     {
-        fs.writeFile('./tasks.json', tasks, (err) => {
+        let tasksjsonf = `{"${0}":"${tasks[0]}"` 
+        for (i = 1; i < tasks.length; i++){
+            tasksjsonf += `,"${i}":"${tasks[i]}"`;
+        }
+        tasksjsonf += `}` 
+
+        fs.writeFile('./tasks.json', tasksjsonf, (err) => {
             if (err)
             {
                 console.log(err);
@@ -36,8 +46,6 @@ const menu = () =>
             else
             {
                 console.log("File written successfully\n");
-                console.log("The written has the following contents:");
-                console.log(fs.readFileSync("./tasks.json", "utf8"));
             }
         });
         console.log("bye");
